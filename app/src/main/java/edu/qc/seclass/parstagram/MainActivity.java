@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -33,17 +34,16 @@ import com.parse.SaveCallback;
 import java.io.File;
 import java.util.List;
 
+import edu.qc.seclass.parstagram.fragments.ComposeFragment;
+import edu.qc.seclass.parstagram.fragments.PostsFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 37;
-    private EditText etDescription;
-    private Button btnCaptureImage;
-    private ImageView ivPostImage;
-    private Button btnSubmit;
+
+    final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigationView;
-    private File photoFile;
-    private String photoFileName = "photo.jpg";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +58,20 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.action_home:
-                        Toast.makeText(MainActivity.this, "HOME", Toast.LENGTH_SHORT).show();
-                        return true;
+                        fragment = new PostsFragment();
+                        break;
                     case R.id.action_compose:
-                        Toast.makeText(MainActivity.this, "COMPOSE", Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.aciton_profile:
-                        Toast.makeText(MainActivity.this, "PROFILE", Toast.LENGTH_SHORT).show();
-                        return true;
-                    default: return true;
+                        fragment = new ComposeFragment();
+                        break;
+                    default:
+                        fragment = new ComposeFragment();
+                        break;
                 }
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                return true;
             }
         });
+        // Set default selection
+        bottomNavigationView.setSelectedItemId(R.id.action_home);
     }
 }
