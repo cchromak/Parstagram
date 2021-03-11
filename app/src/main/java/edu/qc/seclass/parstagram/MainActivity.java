@@ -36,6 +36,7 @@ import java.util.List;
 
 import edu.qc.seclass.parstagram.fragments.ComposeFragment;
 import edu.qc.seclass.parstagram.fragments.PostsFragment;
+import edu.qc.seclass.parstagram.fragments.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,8 +64,11 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_compose:
                         fragment = new ComposeFragment();
                         break;
+                    case R.id.aciton_profile:
+                        fragment = new ProfileFragment();
+                        break;
                     default:
-                        fragment = new ComposeFragment();
+                        fragment = new PostsFragment();
                         break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
