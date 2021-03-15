@@ -15,7 +15,7 @@ public class ProfileFragment extends PostsFragment {
 
     @Override
     protected void queryPosts() {
-        super.queryPosts();
+        //super.queryPosts();
         // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         // includes author information

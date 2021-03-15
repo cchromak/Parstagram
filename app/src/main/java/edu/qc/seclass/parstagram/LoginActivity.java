@@ -33,9 +33,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
         // checks to see if a user is already logged in
-        if(ParseUser.getCurrentUser() != null) {
-            goMainActivity();
-        }
+//        if(ParseUser.getCurrentUser() != null) {
+//            goMainActivity();
+//        }
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override

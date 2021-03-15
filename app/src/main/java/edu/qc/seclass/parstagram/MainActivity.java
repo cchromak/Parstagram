@@ -58,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
                 switch (item.getItemId()) {
-                    case R.id.action_home:
-                        fragment = new PostsFragment();
-                        break;
                     case R.id.action_compose:
                         fragment = new ComposeFragment();
                         break;
@@ -70,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
                     default:
                         fragment = new PostsFragment();
                         break;
+//                    default:
+//                        fragment = new PostsFragment();
+//                        break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
