@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ public class PostsFragment extends Fragment {
     private RecyclerView rvPosts;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
+    private SwipeRefreshLayout swipeContainer;
 
 
     public PostsFragment() {
@@ -52,6 +54,8 @@ public class PostsFragment extends Fragment {
         // Setup any handles to view objects here
         // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
         super.onViewCreated(view, savedInstanceState);
+        // Lookup the swipe container view
+        swipeContainer = view.findViewById(R.id.swipeContainer);
         // 0.
         rvPosts = view.findViewById(R.id.rvPosts);
         // 1 & 2
@@ -68,6 +72,20 @@ public class PostsFragment extends Fragment {
         // 2. create the data source
         // 3. set the adapter on the recycler vew
         // 4. set the layout manager on the recycler view
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                queryPosts();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         queryPosts();
 
@@ -91,9 +109,11 @@ public class PostsFragment extends Fragment {
                     for (Post post: posts) {
                         Log.i(TAG, "Posts: " + post.getDescription() + ", user is: " + post.getUser().getUsername());
                     }
+                    adapter.clear();
                     allPosts.addAll(posts);
                     // notify adapter that data set has changed
-                    adapter.notifyDataSetChanged();
+                    // adapter.notifyDataSetChanged();
+                    swipeContainer.setRefreshing(false);
                 }
             }
         });
